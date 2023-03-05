@@ -16,6 +16,54 @@ export default class MyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+
+		// *******
+
+
+
+
+
+		this.app.workspace.onLayoutReady(async () => {
+			console.log("ready")
+			const navButtons = document.getElementsByClassName("view-header-nav-buttons");
+			const titlebar = document.getElementsByClassName("workspace-tab-header-container");
+
+			for (let i = 0; i < navButtons.length; i++) {
+
+				const parent = navButtons[i].parentNode;
+
+				if (parent != null && parent.contains(navButtons[i])) {
+					parent.removeChild(navButtons[i]);
+
+
+					titlebar[i].insertBefore(navButtons[i], titlebar[i].firstChild);
+					navButtons[i].style.width = "100%";
+					navButtons[i].style.zIndex = "100";
+				}
+			}
+		});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// *******
+
+
+
+
+
+
+
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
@@ -82,6 +130,8 @@ export default class MyPlugin extends Plugin {
 
 	}
 
+
+
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
@@ -97,12 +147,12 @@ class SampleModal extends Modal {
 	}
 
 	onOpen() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.setText('Woah!');
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
@@ -116,11 +166,11 @@ class SampleSettingTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
+		containerEl.createEl('h2', { text: 'Settings for my awesome plugin.' });
 
 		new Setting(containerEl)
 			.setName('Setting #1')
